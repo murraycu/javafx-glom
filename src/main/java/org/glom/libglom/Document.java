@@ -22,7 +22,6 @@ package org.glom.libglom;
 //import java.io.ByteArrayInputStream;
 
 import org.apache.commons.lang3.StringUtils;
-import android.util.Log;
 
 import org.apache.commons.codec.binary.Base64;
 import org.glom.libglom.Field.GlomFieldType;
@@ -205,7 +204,7 @@ public class Document {
 
         final Element rootNode = xmlDocument.getDocumentElement();
         if (!StringUtils.equals(rootNode.getNodeName(), NODE_ROOT)) {
-            Log.v("android-glom", "Unexpected XML root node name found: " + rootNode.getNodeName());
+            Logger.log("Unexpected XML root node name found: " + rootNode.getNodeName());
             return false;
         }
 
@@ -595,7 +594,7 @@ public class Document {
                 // TODO
                 break;
             default:
-                Log.e("android-glom", documentID + ": getNodeTextChildAsValue(): unexpected or invalid field type.");
+                Logger.log(documentID + ": getNodeTextChildAsValue(): unexpected or invalid field type.");
                 break;
         }
 
@@ -631,7 +630,7 @@ public class Document {
                 str = ""; // TODO
                 break;
             default:
-                Log.e("android-glom", documentID + ": setNodeTextChildAsValue(): unexpected or invalid field type.");
+                Logger.log(documentID + ": setNodeTextChildAsValue(): unexpected or invalid field type.");
                 break;
         }
 
@@ -1060,7 +1059,7 @@ public class Document {
                         info.layoutGroupsList = listLayoutGroups;
                         break;
                     default:
-                        Log.e("android-glom", documentID + ": loadTableNode(): unexpected layout name: " + name);
+                        Logger.log(documentID + ": loadTableNode(): unexpected layout name: " + name);
                         break;
                 }
             }
@@ -1170,7 +1169,7 @@ public class Document {
             item.setRelationship(relationship);
 
             if (relationship == null) {
-                Log.e("android-glom", "relationship not found: " + relationshipName + ", in table: " + tableName);
+                Logger.log("relationship not found: " + relationshipName + ", in table: " + tableName);
             }
         }
 
@@ -1181,7 +1180,7 @@ public class Document {
             item.setRelatedRelationship(relatedRelationship);
 
             if (relatedRelationship == null) {
-                Log.e("android-glom", "related relationship not found in table=" + relationship.getToTable() + ",  name="
+                Logger.log("related relationship not found in table=" + relationship.getToTable() + ",  name="
                         + relatedRelationshipName);
             }
         }
@@ -1694,7 +1693,7 @@ public class Document {
     Relationship getFieldUsedInRelationshipToOne(final String tableName, final LayoutItemField layoutField) {
 
         if (layoutField == null) {
-            Log.e("android-glom", "layoutField was null");
+            Logger.log("layoutField was null");
             return null;
         }
 
@@ -1707,7 +1706,7 @@ public class Document {
             // if(StringUtils.equals(tableUsed, GLOM_STANDARD_TABLE_PREFS_TABLE_NAME))
             // return result;
 
-            Log.e("android-glom", "table not found: " + tableUsed);
+            Logger.log("table not found: " + tableUsed);
             return null;
         }
 
@@ -1759,7 +1758,7 @@ public class Document {
     public Relationship getRelationship(final String tableName, final String relationshipName) {
         final TableInfo info = getTableInfo(tableName);
         if (info == null) {
-            Log.e("android-glom", "table not found: " + tableName);
+            Logger.log("table not found: " + tableName);
             return null;
         }
 
@@ -1795,7 +1794,7 @@ public class Document {
         }
 
         if (getTableIsHidden(navigationTableName)) {
-            Log.e("android-glom", "navigation_table_name indicates a hidden table: " + navigationTableName);
+            Logger.log("navigation_table_name indicates a hidden table: " + navigationTableName);
             return null;
         }
 
@@ -1975,18 +1974,18 @@ public class Document {
             final String tableName, final String layoutName, final String layoutPath) {
         final List<LayoutGroup> listLayoutGroups = getDataLayoutGroups(layoutName, tableName);
         if (listLayoutGroups == null) {
-            Log.e("android-glom", "The layout with the specified name was not found. tableName=" + tableName + ", layoutName=" + layoutName);
+            Logger.log("The layout with the specified name was not found. tableName=" + tableName + ", layoutName=" + layoutName);
             return null;
         }
 
         if (listLayoutGroups.isEmpty()) {
-            Log.e("android-glom", "The layout was empty. attrTableName=" + tableName + ", layoutName=" + layoutName);
+            Logger.log("The layout was empty. attrTableName=" + tableName + ", layoutName=" + layoutName);
             return null;
         }
 
         final int[] indices = Utils.parseLayoutPath(layoutPath);
         if ((indices == null) || (indices.length == 0)) {
-            Log.e("android-glom", "The layout path was empty or could not be parsed. layoutPath=" + layoutPath);
+            Logger.log("The layout path was empty or could not be parsed. layoutPath=" + layoutPath);
             return null;
         }
 
@@ -1994,7 +1993,7 @@ public class Document {
         int depth = 0;
         for (int index : indices) {
             if (index < 0) {
-                Log.e("android-glom", "An index in the layout path was negative, at depth=" + depth + ", layoutPath=" + layoutPath);
+                Logger.log("An index in the layout path was negative, at depth=" + depth + ", layoutPath=" + layoutPath);
                 return null;
             }
 
@@ -2003,7 +2002,7 @@ public class Document {
                 if (index < listLayoutGroups.size()) {
                     item = listLayoutGroups.get(index);
                 } else {
-                    Log.e("android-glom", "An index in the layout path is larger than the number of child items, at depth=" + depth + ", layoutPath=" + layoutPath);
+                    Logger.log("An index in the layout path is larger than the number of child items, at depth=" + depth + ", layoutPath=" + layoutPath);
                     return null;
                 }
             } else {
@@ -2013,11 +2012,11 @@ public class Document {
                     if (index < items.size()) {
                         item = items.get(index);
                     } else {
-                        Log.e("android-glom", "An index in the layout path is larger than the number of child items, at depth=" + depth + ", layoutPath=" + layoutPath);
+                        Logger.log("An index in the layout path is larger than the number of child items, at depth=" + depth + ", layoutPath=" + layoutPath);
                         return null;
                     }
                 } else {
-                    Log.e("android-glom", "An intermediate item in the layout path is not a layout group, at depth=" + depth + ", layoutPath=" + layoutPath);
+                    Logger.log("An intermediate item in the layout path is not a layout group, at depth=" + depth + ", layoutPath=" + layoutPath);
                     return null;
                 }
             }
@@ -2026,7 +2025,7 @@ public class Document {
         }
 
         if (item == null) {
-            Log.e("android-glom", "The item specifed by the layout path could not be found. layoutPath=" + layoutPath);
+            Logger.log("The item specifed by the layout path could not be found. layoutPath=" + layoutPath);
             return null;
         }
         return item;

@@ -20,8 +20,8 @@
 package org.glom.libglom.layout;
 
 import org.apache.commons.lang3.StringUtils;
-import android.util.Log;
 
+import org.glom.libglom.Logger;
 import org.glom.libglom.NumericFormat;
 
 public class Formatting {
@@ -46,10 +46,10 @@ public class Formatting {
             return gdkColor.substring(0, 3) + gdkColor.substring(5, 7) + gdkColor.substring(9, 11);
         } else if (gdkColor.length() == 7) {
             // This shouldn't happen but let's deal with it if it does.
-            Log.e("android-glom", "Expected a 13 character string but received a 7 character string. Returning received string.");
+            Logger.log("Expected a 13 character string but received a 7 character string. Returning received string.");
             return gdkColor;
         } else {
-            Log.e("android-glom", "Did not receive a 13 or 7 character string. Returning black HTML color code.");
+            Logger.log("Did not receive a 13 or 7 character string. Returning black HTML color code.");
             return "#000000";
         }
     }

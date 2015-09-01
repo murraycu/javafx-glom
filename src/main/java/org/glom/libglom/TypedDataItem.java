@@ -22,7 +22,6 @@ package org.glom.libglom;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.glom.app.Log;
 import org.glom.libglom.Field.GlomFieldType;
 
 import java.text.ParseException;
@@ -134,7 +133,7 @@ public class TypedDataItem extends DataItem implements Parcelable {
             case TYPE_INVALID:
                 //TODO: return "value-with-invalid-type";
             default:
-                Log.error("Unexpected type.");
+                Logger.log("Unexpected type.");
                 return null;
         }
     }
@@ -162,7 +161,7 @@ public class TypedDataItem extends DataItem implements Parcelable {
                 try {
                     date = format.parse(str);
                 } catch (final ParseException e) {
-                    Log.error("Failed to parse date", e);
+                    Logger.log("Failed to parse date", e);
                 }
 
                 setDate(date);
@@ -179,7 +178,7 @@ public class TypedDataItem extends DataItem implements Parcelable {
             case TYPE_INVALID:
                 //TODO: return "value-with-invalid-type";
             default:
-                Log.error("Unexpected type.");
+                Logger.log("Unexpected type.");
         }
     }
 
