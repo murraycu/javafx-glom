@@ -4,6 +4,7 @@ import org.glom.libglom.Document;
 import org.glom.libglom.Logger;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.io.InputStream;
 
 /**
@@ -11,9 +12,27 @@ import java.io.InputStream;
  */
 public class ListView {
 
+    private static class TableModel extends AbstractTableModel {
+
+        @Override
+        public int getRowCount() {
+            return 0;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 0;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            return null;
+        }
+    }
+
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("Glom: List");
+        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
@@ -26,8 +45,14 @@ public class ListView {
             return;
         }
 
-        JLabel label = new JLabel(document.getDatabaseTitle(""));
-        frame.getContentPane().add(label);
+        final String title = "Glom: " + document.getDatabaseTitle("") + ": List";
+        frame.setTitle(title);
+
+        final TableModel model = new TableModel();
+        final JTable table = new JTable(model);
+
+        final JScrollPane scrollpane = new JScrollPane(table);
+        frame.getContentPane().add(scrollpane);
 
         //Display the window.
         frame.pack();
