@@ -17,11 +17,11 @@
  * along with GWT-Glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.web.shared;
+package org.glom;
 
 import java.util.Date;
 
-import org.glom.web.shared.libglom.Field.GlomFieldType;
+import org.glom.libglom.Field.GlomFieldType;
 
 /**
  * This specialization of DataItem can hold a primary key item.

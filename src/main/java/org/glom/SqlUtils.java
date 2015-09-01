@@ -17,7 +17,7 @@
  * along with GWT-Glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.web.server;
+package org.glom;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
@@ -33,15 +33,15 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
-import org.glom.web.server.libglom.Document;
-import org.glom.web.shared.DataItem;
-import org.glom.web.shared.TypedDataItem;
-import org.glom.web.shared.libglom.Field;
-import org.glom.web.shared.libglom.Relationship;
-import org.glom.web.shared.libglom.layout.LayoutItemField;
-import org.glom.web.shared.libglom.layout.SortClause;
-import org.glom.web.shared.libglom.layout.UsesRelationship;
-import org.glom.web.shared.libglom.layout.UsesRelationshipImpl;
+import org.glom.libglom.Document;
+//import org.glom.DataItem;
+import org.glom.libglom.Field;
+import org.glom.libglom.Logger;
+import org.glom.libglom.Relationship;
+import org.glom.libglom.layout.LayoutItemField;
+import org.glom.libglom.layout.SortClause;
+import org.glom.libglom.layout.UsesRelationship;
+import org.glom.libglom.layout.UsesRelationshipImpl;
 import org.jooq.AggregateFunction;
 import org.jooq.Condition;
 import org.jooq.Record;
@@ -102,7 +102,7 @@ public class SqlUtils {
 			default: {
 				// TODO: We allow self-hosting here, for testing,
 				// but maybe the startup of self-hosting should happen here.
-				Log.fatal("Error configuring the database connection." + " Only PostgreSQL and MYSQL hosting are supported.");
+				Logger.log("Error configuring the database connection." + " Only PostgreSQL and MYSQL hosting are supported.");
 				// FIXME: Throw exception?
 				return null;
 			}
@@ -136,7 +136,7 @@ public class SqlUtils {
 		try {
 			cpds.setDriverClass(details.driverClass);
 		} catch (final PropertyVetoException e) {
-			Log.fatal("Error loading the PostgreSQL JDBC driver."
+			Logger.log("Error loading the PostgreSQL JDBC driver."
 					+ " Is the PostgreSQL JDBC jar available to the servlet?", e);
 			return null;
 		}
@@ -178,9 +178,8 @@ public class SqlUtils {
 			conn = cpds.getConnection();
 			return cpds;
 		} catch (final SQLException e) {
-			Log.info(Utils.getFileName(document.getFileURI()), e.getMessage());
-			Log.info(Utils.getFileName(document.getFileURI()),
-					"Connection Failed. Maybe the username or password is not correct.");
+			Logger.log(document.getDatabaseTitle(""), e);
+			Logger.log("Connection Failed. Maybe the username or password is not correct.");
 			return null;
 		} finally {
 			if (conn != null) {
@@ -196,14 +195,14 @@ public class SqlUtils {
 
 	public static ResultSet executeQuery(final ComboPooledDataSource cpds, final String query, int expectedLength) throws SQLException {
 		if(cpds == null) {
-			Log.error("cpds is null.");
+			Logger.log("cpds is null.");
 			return null;
 		}
 
 		// Setup the JDBC driver and run the query.
 		final Connection conn = cpds.getConnection();
 		if(conn == null) {
-			Log.error("The connection is null.");
+			Logger.log("The connection is null.");
 			return null;
 		}
 		
@@ -290,7 +289,7 @@ public class SqlUtils {
 		}
 
 		final String query = step.getQuery().getSQL(true);
-		// Log.info("Query: " + query);
+		// Logger.log("Query: " + query);
 		return query;
 	}
 
@@ -494,10 +493,10 @@ public class SqlUtils {
 	 * 
 	 * final Relationship eachRel = eachUsesRel.getRelationship(); if (eachRel == null) { continue; }
 	 * 
-	 * Log.info("Checking: rel name=" + relationship.get_name() + ", eachRel name=" + eachRel.get_name());
+	 * Logger.log("Checking: rel name=" + relationship.get_name() + ", eachRel name=" + eachRel.get_name());
 	 * 
-	 * if (UsesRelationship.relationship_equals(relationship, eachRel)) { i.remove(); Log.info("  Removed"); } else {
-	 * Log.info(" not equal"); }
+	 * if (UsesRelationship.relationship_equals(relationship, eachRel)) { i.remove(); Logger.log("  Removed"); } else {
+	 * Logger.log(" not equal"); }
 	 * 
 	 * } }
 	 */
@@ -632,22 +631,11 @@ public class SqlUtils {
 			}
 			break;
 		case TYPE_IMAGE:
-			//We don't get the data here.
-			//Instead we provide a way for the client to get the image separately.
-			
-			//This doesn't seem to work,
-			//presumably because the base64 encoding is wrong:
-			//final byte[] imageByteArray = rs.getBytes(rsIndex);
-			//if (imageByteArray != null) {
-			//	String base64 = org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString(imageByteArray);
-			//	base64 = "data:image/png;base64," + base64;
-			
-			final String url = Utils.buildImageDataUrl(primaryKeyValue, documentID, tableName, field);
-			dataItem.setImageDataUrl(url);
+			//TODO:
 			break;
 		case TYPE_INVALID:
 		default:
-			Log.warn(documentID, tableName, "Invalid LayoutItem Field type. Using empty string for value.");
+			Logger.log("Invalid LayoutItem Field type. Using empty string for value.");
 			dataItem.setText("");
 			break;
 		}

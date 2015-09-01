@@ -16,7 +16,7 @@
     <trans loc="sr@latin" val="Muzička zbirka"/>
     <trans loc="zh_CN" val="音乐收藏"/>
   </trans_set>
-  <connection hosting_mode="postgres_self" server="localhost" port="5433" try_other_ports="false" database="glom_musiccollection211"/>
+  <connection hosting_mode="postgres_central" server="localhost" port="5432" try_other_ports="false" database="glom_musiccollection211"/>
   <table name="albums" overview_x="15" overview_y="9" title="Albums">
     <example_rows>
       <example_row>

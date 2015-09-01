@@ -17,7 +17,7 @@
  * along with GWT-Glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.web.server;
+package org.glom;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,10 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.utils.URIBuilder;
-import org.glom.web.shared.TypedDataItem;
-import org.glom.web.shared.libglom.Field.GlomFieldType;
-import org.glom.web.shared.libglom.layout.LayoutItemField;
+import org.glom.libglom.Field.GlomFieldType;
 
 /**
  *
@@ -84,51 +81,6 @@ public class Utils {
 				return null;
 			}
 		}
-	}
-
-	/** Build the URL for the service that will return the binary data for an image.
-	 * 
-	 * @param primaryKeyValue
-	 * @param field
-	 * @return
-	 */
-	public static String buildImageDataUrl(final TypedDataItem primaryKeyValue, final String documentID, final String tableName, final LayoutItemField field) {
-		final URIBuilder uriBuilder = buildImageDataUrlStart(documentID, tableName);
-		
-		//TODO: Handle other types:
-		if(primaryKeyValue != null) {
-			uriBuilder.setParameter("value", Double.toString(primaryKeyValue.getNumber()));
-		}
-		
-		uriBuilder.setParameter("field", field.getName());
-		return uriBuilder.toString();
-	}
-
-	/** Build the URL for the service that will return the binary data for an image.
-	 * 
-	 * @param primaryKeyValue
-	 * @param field
-	 * @return
-	 */
-	public static String buildImageDataUrl(final String documentID, final String tableName, final String layoutName, final int[] path) {
-		final URIBuilder uriBuilder = buildImageDataUrlStart(documentID, tableName);
-		uriBuilder.setParameter("layout", layoutName);
-		uriBuilder.setParameter("layoutpath", buildLayoutPath(path));
-		return uriBuilder.toString();
-	}
-
-	/**
-	 * @param documentID
-	 * @param tableName
-	 * @return
-	 */
-	private static URIBuilder buildImageDataUrlStart(final String documentID, final String tableName) {
-		final URIBuilder uriBuilder = new URIBuilder();
-		//uriBuilder.setHost(GWT.getModuleBaseURL());
-		uriBuilder.setPath("OnlineGlom/gwtGlomImages"); //The name of our images servlet. See OnlineGlomImagesServlet.
-		uriBuilder.setParameter("document", documentID);
-		uriBuilder.setParameter("table", tableName);
-		return uriBuilder;
 	}
 
 	/** Build a :-separated string to represent the path as a string.
