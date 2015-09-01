@@ -2,10 +2,14 @@ package org.glom;
 
 import org.glom.libglom.Document;
 import org.glom.libglom.Logger;
+import org.glom.libglom.layout.LayoutGroup;
+import org.glom.libglom.layout.LayoutItem;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by murrayc on 9/1/15.
@@ -14,6 +18,28 @@ public class ListView {
 
     private static class TableModel extends AbstractTableModel {
 
+        private final Document document;
+        private final String tableName;
+        private final List<LayoutItem> layoutItems;
+
+        public TableModel(final Document document, final String tableName) {
+            this.document = document;
+            this.tableName = tableName;
+            this.layoutItems = buildLayoutItems();
+        }
+
+        private List<LayoutItem> buildLayoutItems() {
+            final List<LayoutItem> items = new ArrayList<>();
+            final List<LayoutGroup> listGroups = document.getDataLayoutGroups("list", this.tableName);
+            for(final LayoutGroup group : listGroups) {
+                for(final LayoutItem item : group.getItems()) {
+                    items.add(item);
+                }
+            }
+
+            return items;
+        }
+
         @Override
         public int getRowCount() {
             return 0;
@@ -21,12 +47,23 @@ public class ListView {
 
         @Override
         public int getColumnCount() {
-            return 0;
+            return layoutItems.size();
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             return null;
+        }
+
+        @Override
+        public String getColumnName(int columnIndex) {
+            System.out.println("in");
+            final LayoutItem item = layoutItems.get(columnIndex);
+            if (item == null) {
+                return null;
+            }
+
+            return item.getTitle("");
         }
     }
 
@@ -48,7 +85,10 @@ public class ListView {
         final String title = "Glom: " + document.getDatabaseTitle("") + ": List";
         frame.setTitle(title);
 
-        final TableModel model = new TableModel();
+        final String tableName = document.getDefaultTable();
+        //final String tableTitle = document.getTableTitle(tableName, "");
+
+        final TableModel model = new TableModel(document, tableName);
         final JTable table = new JTable(model);
 
         final JScrollPane scrollpane = new JScrollPane(table);
