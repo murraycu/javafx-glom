@@ -19,7 +19,7 @@
 
 package org.glom.libglom.layout;
 
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.glom.libglom.CustomTitle;
 import org.glom.libglom.Field;
@@ -275,7 +275,7 @@ public class LayoutItemField extends LayoutItemWithFormatting implements UsesRel
         }
 
         // Fallback to the field's original title:
-        if (TextUtils.isEmpty(title) && (field != null)) {
+        if (StringUtils.isEmpty(title) && (field != null)) {
             title = field.getTitleOriginal();
         }
 

@@ -19,7 +19,7 @@
 
 package org.glom.libglom.layout;
 
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 import android.util.Log;
 
 import org.glom.libglom.NumericFormat;
@@ -38,7 +38,7 @@ public class Formatting {
      * significant 8-bits in each channel.
      */
     private static String convertGdkColorToHtmlColor(final String gdkColor) {
-        if (TextUtils.isEmpty(gdkColor)) {
+        if (StringUtils.isEmpty(gdkColor)) {
             return "";
         }
 

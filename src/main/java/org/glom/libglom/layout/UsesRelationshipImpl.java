@@ -19,7 +19,7 @@
 
 package org.glom.libglom.layout;
 
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.glom.libglom.Relationship;
 
@@ -72,7 +72,7 @@ public class UsesRelationshipImpl implements UsesRelationship {
             return false;
         }
 
-        return !TextUtils.isEmpty(relationship.getName());
+        return !StringUtils.isEmpty(relationship.getName());
 
     }
 
@@ -82,7 +82,7 @@ public class UsesRelationshipImpl implements UsesRelationship {
             return false;
         }
 
-        return !TextUtils.isEmpty(relatedRelationship.getName());
+        return !StringUtils.isEmpty(relatedRelationship.getName());
 
     }
 
@@ -168,11 +168,11 @@ public class UsesRelationshipImpl implements UsesRelationship {
             result = relatedRelationship.getToTable();
         }
 
-        if (TextUtils.isEmpty(result) && (relationship != null)) {
+        if (StringUtils.isEmpty(result) && (relationship != null)) {
             result = relationship.getToTable();
         }
 
-        if (TextUtils.isEmpty(result)) {
+        if (StringUtils.isEmpty(result)) {
             result = parentTableName;
         }
 
@@ -188,7 +188,7 @@ public class UsesRelationshipImpl implements UsesRelationship {
     public String getSqlTableOrJoinAliasName(final String parent_table) {
         if (getHasRelationshipName() || getHasRelatedRelationshipName()) {
             final String result = getSqlJoinAliasName();
-            if (TextUtils.isEmpty(result)) {
+            if (StringUtils.isEmpty(result)) {
                 // Non-linked-fields relationship:
                 return getTableUsed(parent_table);
             } else {

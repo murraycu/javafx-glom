@@ -19,7 +19,7 @@
 
 package org.glom.libglom.layout;
 
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.glom.libglom.Relationship;
 
@@ -181,7 +181,7 @@ public class LayoutItemPortal extends LayoutGroup implements UsesRelationship {
     @Override
     public String getTitleOriginal() {
         String title = getTitleUsed("" /* parent table - not relevant */, "" /* locale */);
-        if (TextUtils.isEmpty(title)) {
+        if (StringUtils.isEmpty(title)) {
             title = "Undefined Table";
         }
 
@@ -191,7 +191,7 @@ public class LayoutItemPortal extends LayoutGroup implements UsesRelationship {
     @Override
     public String getTitle(final String locale) {
         String title = getTitleUsed("" /* parent table - not relevant */, locale);
-        if (TextUtils.isEmpty(title)) {
+        if (StringUtils.isEmpty(title)) {
             title = "Undefined Table";
         }
 
@@ -201,11 +201,11 @@ public class LayoutItemPortal extends LayoutGroup implements UsesRelationship {
     @Override
     public String getTitleOrName(final String locale) {
         String title = getTitleUsed("" /* parent table - not relevant */, locale);
-        if (TextUtils.isEmpty(title)) {
+        if (StringUtils.isEmpty(title)) {
             title = getRelationshipNameUsed();
         }
 
-        if (TextUtils.isEmpty(title)) {
+        if (StringUtils.isEmpty(title)) {
             title = "Undefined Table";
         }
 

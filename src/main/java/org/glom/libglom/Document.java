@@ -204,7 +204,7 @@ public class Document {
         }
 
         final Element rootNode = xmlDocument.getDocumentElement();
-        if (!TextUtils.equals(rootNode.getNodeName(), NODE_ROOT)) {
+        if (!StringUtils.equals(rootNode.getNodeName(), NODE_ROOT)) {
             Log.v("android-glom", "Unexpected XML root node name found: " + rootNode.getNodeName());
             return false;
         }
@@ -213,7 +213,7 @@ public class Document {
         //TODO: load() show complain (via an enum result) if the document format version is less than 7.
         final String databaseTitleStr = rootNode.getAttribute(ATTRIBUTE_TITLE);
         final String deprecatedDatabaseTitleStr = rootNode.getAttribute(DEPRECATED_ATTRIBUTE_DATABASE_TITLE);
-        if (!TextUtils.isEmpty(databaseTitleStr)) {
+        if (!StringUtils.isEmpty(databaseTitleStr)) {
             databaseTitle.setTitleOriginal(databaseTitleStr);
         } else {
             databaseTitle.setTitleOriginal(deprecatedDatabaseTitleStr);
@@ -322,7 +322,7 @@ public class Document {
 
     private double getAttributeAsDecimal(final Element node, final String attributeName) {
         final String str = node.getAttribute(attributeName);
-        if (TextUtils.isEmpty(str)) {
+        if (StringUtils.isEmpty(str)) {
             return 0;
         }
 
@@ -377,7 +377,7 @@ public class Document {
 
             final String locale = element.getAttribute(ATTRIBUTE_TRANSLATION_LOCALE);
             final String translatedTitle = element.getAttribute(ATTRIBUTE_TRANSLATION_TITLE);
-            if (!TextUtils.isEmpty(locale) && !TextUtils.isEmpty(translatedTitle)) {
+            if (!StringUtils.isEmpty(locale) && !StringUtils.isEmpty(translatedTitle)) {
                 title.setTitle(translatedTitle, locale);
 
                 // Remember any new translation locales in our cached list:
@@ -499,7 +499,7 @@ public class Document {
 
                     final Element elementValue = (Element) nodeValue;
                     final String fieldName = elementValue.getAttribute(ATTRIBUTE_COLUMN);
-                    if (TextUtils.isEmpty(fieldName)) {
+                    if (StringUtils.isEmpty(fieldName)) {
                         continue;
                     }
 
@@ -962,7 +962,7 @@ public class Document {
                 }
 
                 final String fieldName = field.getName();
-                if (TextUtils.isEmpty(fieldName)) {
+                if (StringUtils.isEmpty(fieldName)) {
                     continue;
                 }
 
@@ -1163,7 +1163,7 @@ public class Document {
 
         final String relationshipName = element.getAttribute(ATTRIBUTE_RELATIONSHIP_NAME);
         Relationship relationship = null;
-        if (!TextUtils.isEmpty(relationshipName)) {
+        if (!StringUtils.isEmpty(relationshipName)) {
             // std::cout << "  debug in : tableName=" << tableName << ", relationshipName=" << relationship_name <<
             // std::endl;
             relationship = getRelationship(tableName, relationshipName);
@@ -1176,7 +1176,7 @@ public class Document {
 
         // TODO: Unit test loading of doubly-related fields.
         final String relatedRelationshipName = element.getAttribute(ATTRIBUTE_RELATED_RELATIONSHIP_NAME);
-        if (!TextUtils.isEmpty(relatedRelationshipName) && (relationship != null)) {
+        if (!StringUtils.isEmpty(relatedRelationshipName) && (relationship != null)) {
             final Relationship relatedRelationship = getRelationship(relationship.getToTable(), relatedRelationshipName);
             item.setRelatedRelationship(relatedRelationship);
 
@@ -1415,7 +1415,7 @@ public class Document {
         final Element elementNavigation = getElementByName(element, NODE_DATA_LAYOUT_PORTAL_NAVIGATIONRELATIONSHIP);
         if (elementNavigation != null) {
             final String navigationTypeAsString = elementNavigation.getAttribute(ATTRIBUTE_PORTAL_NAVIGATION_TYPE);
-            if (TextUtils.isEmpty(navigationTypeAsString)
+            if (StringUtils.isEmpty(navigationTypeAsString)
                     || navigationTypeAsString.equals(ATTRIBUTE_PORTAL_NAVIGATION_TYPE_AUTOMATIC)) {
                 portal.setNavigationType(LayoutItemPortal.NavigationType.NAVIGATION_AUTOMATIC);
             } else if (navigationTypeAsString.equals(ATTRIBUTE_PORTAL_NAVIGATION_TYPE_NONE)) {
@@ -1439,7 +1439,7 @@ public class Document {
 
         Field.GlomFieldType fieldType = Field.GlomFieldType.TYPE_INVALID;
         final String fieldTypeStr = element.getAttribute(ATTRIBUTE_FIELD_TYPE);
-        if (!TextUtils.isEmpty(fieldTypeStr)) {
+        if (!StringUtils.isEmpty(fieldTypeStr)) {
             switch (fieldTypeStr) {
                 case "Boolean":
                     fieldType = GlomFieldType.TYPE_BOOLEAN;
@@ -1704,7 +1704,7 @@ public class Document {
         final TableInfo info = getTableInfo(tableUsed);
         if (info == null) {
             // This table is special. We would not create a relationship to it using a field:
-            // if(TextUtils.equals(tableUsed, GLOM_STANDARD_TABLE_PREFS_TABLE_NAME))
+            // if(StringUtils.equals(tableUsed, GLOM_STANDARD_TABLE_PREFS_TABLE_NAME))
             // return result;
 
             Log.e("android-glom", "table not found: " + tableUsed);
@@ -1716,7 +1716,7 @@ public class Document {
         for (final Relationship relationship : info.relationshipsMap.values()) {
             if (relationship != null) {
                 // If the relationship uses the field
-                if (TextUtils.equals(relationship.getFromField(), fieldName)) {
+                if (StringUtils.equals(relationship.getFromField(), fieldName)) {
                     // if the to_table is not hidden:
                     if (!getTableIsHidden(relationship.getToTable())) {
                         // TODO_Performance: The use of this convenience method means we get the full relationship
@@ -1790,7 +1790,7 @@ public class Document {
             navigationTableName = directlyRelatedTableName;
         }
 
-        if (TextUtils.isEmpty(navigationTableName)) {
+        if (StringUtils.isEmpty(navigationTableName)) {
             return null;
         }
 
@@ -1876,7 +1876,7 @@ public class Document {
                     final Relationship relationship = getFieldUsedInRelationshipToOne(parent_table_name, field);
                     if (relationship != null) {
                         final String table_name = relationship.getToTable();
-                        if (!TextUtils.isEmpty(table_name)) {
+                        if (!StringUtils.isEmpty(table_name)) {
                             if (!(getTableIsHidden(table_name))) {
                                 return relationship;
                             }
@@ -1895,7 +1895,7 @@ public class Document {
      * @return The destination table name for navigation.
      */
     public String getLayoutItemFieldShouldHaveNavigation(final String tableName, final LayoutItemField layoutItem) {
-        if (TextUtils.isEmpty(tableName)) {
+        if (StringUtils.isEmpty(tableName)) {
             return null;
         }
 

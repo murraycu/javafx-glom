@@ -19,7 +19,7 @@
 
 package org.glom.libglom;
 
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by murrayc on 2/4/14.
@@ -46,7 +46,7 @@ public class Utils {
      * @return The array of indices of the layout items.
      */
     public static int[] parseLayoutPath(final String attrLayoutPath) {
-        if (TextUtils.isEmpty(attrLayoutPath)) {
+        if (StringUtils.isEmpty(attrLayoutPath)) {
             return null;
         }
 

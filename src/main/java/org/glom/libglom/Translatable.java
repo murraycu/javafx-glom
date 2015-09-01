@@ -19,7 +19,7 @@
 
 package org.glom.libglom;
 
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 
@@ -59,7 +59,7 @@ public class Translatable {
     }
 
     public String getTitle(final String locale) {
-        if (TextUtils.isEmpty(locale)) {
+        if (StringUtils.isEmpty(locale)) {
             return getTitleOriginal();
         }
 
@@ -78,7 +78,7 @@ public class Translatable {
      */
     public String getTitleOrName(final String locale) {
         final String title = getTitle(locale);
-        if (TextUtils.isEmpty(title)) {
+        if (StringUtils.isEmpty(title)) {
             return getName();
         }
 
@@ -107,7 +107,7 @@ public class Translatable {
      * @param locale
      */
     public void setTitle(final String title, final String locale) {
-        if (TextUtils.isEmpty(locale)) {
+        if (StringUtils.isEmpty(locale)) {
             setTitleOriginal(title);
             return;
         }

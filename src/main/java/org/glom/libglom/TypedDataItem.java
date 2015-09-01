@@ -23,7 +23,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.glom.app.Log;
-import org.glom.app.libglom.Field.GlomFieldType;
+import org.glom.libglom.Field.GlomFieldType;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

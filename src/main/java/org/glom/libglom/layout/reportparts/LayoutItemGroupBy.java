@@ -19,7 +19,7 @@
 
 package org.glom.libglom.layout.reportparts;
 
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.glom.libglom.layout.LayoutGroup;
 import org.glom.libglom.layout.LayoutItemField;
@@ -37,7 +37,7 @@ public class LayoutItemGroupBy extends LayoutGroup {
             return false;
         }
 
-        return !TextUtils.isEmpty(fieldGroupBy.getName());
+        return !StringUtils.isEmpty(fieldGroupBy.getName());
     }
 
     /**
