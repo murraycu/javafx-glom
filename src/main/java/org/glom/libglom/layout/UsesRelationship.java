@@ -26,35 +26,35 @@ import org.glom.libglom.Relationship;
  */
 public interface UsesRelationship {
 
-    public abstract Relationship getRelationship();
+    Relationship getRelationship();
 
-    public abstract void setRelationship(final Relationship relationship);
+    void setRelationship(final Relationship relationship);
 
     /**
      * @return
      */
-    public abstract boolean getHasRelationshipName();
+    boolean getHasRelationshipName();
 
-    public abstract Relationship getRelatedRelationship();
+    Relationship getRelatedRelationship();
 
     /**
      * @param relationship
      */
-    public abstract void setRelatedRelationship(final Relationship relationship);
+    void setRelatedRelationship(final Relationship relationship);
 
-    public abstract boolean getHasRelatedRelationshipName();
+    boolean getHasRelatedRelationshipName();
 
-    public abstract String getSqlJoinAliasName();
+    String getSqlJoinAliasName();
 
-    public abstract String getSqlTableOrJoinAliasName(String tableName);
+    String getSqlTableOrJoinAliasName(String tableName);
 
     /**
      * @param string
      * @return
      */
-    public abstract String getTableUsed(String string);
+    String getTableUsed(String string);
 
-    public abstract String getRelationshipNameUsed();
+    String getRelationshipNameUsed();
 
-    public abstract String getTitleUsed(String parentTableTitle, String locale);
+    String getTitleUsed(String parentTableTitle, String locale);
 }

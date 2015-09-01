@@ -23,11 +23,11 @@ package org.glom.libglom;
  * Created by murrayc on 6/13/14.
  */
 public interface HasTitleSingular {
-    public String getTitleSingular(final String locale);
+    String getTitleSingular(final String locale);
 
-    public String getTitleSingularWithFallback(final String locale);
+    String getTitleSingularWithFallback(final String locale);
 
-    public Translatable getTitleSingularObject();
+    Translatable getTitleSingularObject();
 
-    public void setTitleSingular(final Translatable title);
+    void setTitleSingular(final Translatable title);
 }
