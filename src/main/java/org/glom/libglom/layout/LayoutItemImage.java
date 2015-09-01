@@ -17,9 +17,9 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom.layout;
+package org.glom.libglom.layout;
 
-import org.glom.app.libglom.DataItem;
+import org.glom.libglom.DataItem;
 
 public class LayoutItemImage extends LayoutItemWithFormatting {
     // TODO: Use byte[] instead?

@@ -17,9 +17,9 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom.layout;
+package org.glom.libglom.layout;
 
-import org.glom.app.libglom.Relationship;
+import org.glom.libglom.Relationship;
 
 /**
  * @author Murray Cumming <murrayc@openismus.com>

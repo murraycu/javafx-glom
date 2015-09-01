@@ -17,9 +17,9 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom;
+package org.glom.libglom;
 
-import org.glom.app.libglom.layout.LayoutGroup;
+import org.glom.libglom.layout.LayoutGroup;
 
 public class Report extends Translatable {
     private LayoutGroup layoutGroup = new LayoutGroup();

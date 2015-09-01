@@ -17,7 +17,7 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom.layout;
+package org.glom.libglom.layout;
 
 public class LayoutItemText extends LayoutItemWithFormatting {
     private StaticText text = new StaticText();

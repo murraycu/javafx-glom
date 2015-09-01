@@ -17,9 +17,9 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom;
+package org.glom.libglom;
 
-import org.glom.app.libglom.layout.Formatting;
+import org.glom.libglom.layout.Formatting;
 
 public class Field extends Translatable {
     private GlomFieldType glomFieldType; // TODO: = glom_field_type.TYPE_INVALID;

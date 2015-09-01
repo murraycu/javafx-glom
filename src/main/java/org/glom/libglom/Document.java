@@ -17,29 +17,29 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom;
+package org.glom.libglom;
 
 //import java.io.ByteArrayInputStream;
 
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 import android.util.Log;
 
 import org.apache.commons.codec.binary.Base64;
-import org.glom.app.libglom.Field.GlomFieldType;
-import org.glom.app.libglom.layout.Formatting;
-import org.glom.app.libglom.layout.LayoutGroup;
-import org.glom.app.libglom.layout.LayoutItem;
-import org.glom.app.libglom.layout.LayoutItemField;
-import org.glom.app.libglom.layout.LayoutItemImage;
-import org.glom.app.libglom.layout.LayoutItemNotebook;
-import org.glom.app.libglom.layout.LayoutItemPortal;
-import org.glom.app.libglom.layout.LayoutItemPortal.NavigationType;
-import org.glom.app.libglom.layout.LayoutItemText;
-import org.glom.app.libglom.layout.StaticText;
-import org.glom.app.libglom.layout.TableToViewDetails;
-import org.glom.app.libglom.layout.UsesRelationship;
-import org.glom.app.libglom.layout.UsesRelationshipImpl;
-import org.glom.app.libglom.layout.reportparts.LayoutItemGroupBy;
+import org.glom.libglom.Field.GlomFieldType;
+import org.glom.libglom.layout.Formatting;
+import org.glom.libglom.layout.LayoutGroup;
+import org.glom.libglom.layout.LayoutItem;
+import org.glom.libglom.layout.LayoutItemField;
+import org.glom.libglom.layout.LayoutItemImage;
+import org.glom.libglom.layout.LayoutItemNotebook;
+import org.glom.libglom.layout.LayoutItemPortal;
+import org.glom.libglom.layout.LayoutItemPortal.NavigationType;
+import org.glom.libglom.layout.LayoutItemText;
+import org.glom.libglom.layout.StaticText;
+import org.glom.libglom.layout.TableToViewDetails;
+import org.glom.libglom.layout.UsesRelationship;
+import org.glom.libglom.layout.UsesRelationshipImpl;
+import org.glom.libglom.layout.reportparts.LayoutItemGroupBy;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

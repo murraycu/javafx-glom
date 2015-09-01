@@ -17,11 +17,11 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom.layout;
+package org.glom.libglom.layout;
 
 import android.text.TextUtils;
 
-import org.glom.app.libglom.Relationship;
+import org.glom.libglom.Relationship;
 
 public class UsesRelationshipImpl implements UsesRelationship {
     private Relationship relationship;
@@ -158,7 +158,7 @@ public class UsesRelationshipImpl implements UsesRelationship {
     /*
      * (non-Javadoc)
      *
-     * @see org.glom.app.libglom.layout.UsesRelationship#get_table_used(java.lang.String)
+     * @see org.glom.libglom.layout.UsesRelationship#get_table_used(java.lang.String)
      */
     @Override
     public String getTableUsed(final String parentTableName) {
@@ -182,7 +182,7 @@ public class UsesRelationshipImpl implements UsesRelationship {
     /*
      * (non-Javadoc)
      *
-     * @see org.glom.app.libglom.layout.UsesRelationship#get_sql_table_or_join_alias_name(java.lang.String)
+     * @see org.glom.libglom.layout.UsesRelationship#get_sql_table_or_join_alias_name(java.lang.String)
      */
     @Override
     public String getSqlTableOrJoinAliasName(final String parent_table) {
@@ -202,7 +202,7 @@ public class UsesRelationshipImpl implements UsesRelationship {
     /*
      * (non-Javadoc)
      *
-     * @see org.glom.app.libglom.layout.UsesRelationship#getRelationshipNameUsed()
+     * @see org.glom.libglom.layout.UsesRelationship#getRelationshipNameUsed()
      */
     @Override
     public String getRelationshipNameUsed() {
@@ -218,7 +218,7 @@ public class UsesRelationshipImpl implements UsesRelationship {
     /*
      * (non-Javadoc)
      *
-     * @see org.glom.app.libglom.layout.UsesRelationship#getTitleUsed(java.lang.String, java.lang.String)
+     * @see org.glom.libglom.layout.UsesRelationship#getTitleUsed(java.lang.String, java.lang.String)
      */
     @Override
     public String getTitleUsed(final String parentTableTitle, final String locale) {

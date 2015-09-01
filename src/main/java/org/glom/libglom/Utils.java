@@ -17,7 +17,7 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom;
+package org.glom.libglom;
 
 import android.text.TextUtils;
 

@@ -17,9 +17,9 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom.layout.reportparts;
+package org.glom.libglom.layout.reportparts;
 
-import org.glom.app.libglom.layout.LayoutGroup;
+import org.glom.libglom.layout.LayoutGroup;
 
 class LayoutItemVerticalGroup extends LayoutGroup {
 

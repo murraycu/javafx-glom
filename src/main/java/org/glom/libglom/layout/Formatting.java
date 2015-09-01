@@ -17,12 +17,12 @@
  * along with android-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.glom.app.libglom.layout;
+package org.glom.libglom.layout;
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.glom.app.libglom.NumericFormat;
+import org.glom.libglom.NumericFormat;
 
 public class Formatting {
 
