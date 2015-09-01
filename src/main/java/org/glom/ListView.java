@@ -1,6 +1,10 @@
 package org.glom;
 
+import org.glom.libglom.Document;
+import org.glom.libglom.Logger;
+
 import javax.swing.*;
+import java.io.InputStream;
 
 /**
  * Created by murrayc on 9/1/15.
@@ -12,7 +16,17 @@ public class ListView {
         JFrame frame = new JFrame("Glom: List");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel label = new JLabel("Hello World");
+
+        final InputStream inputStream = ListView.class.getClassLoader().getResourceAsStream("example_music_collection.glom");
+
+        final Document document = new Document();
+        final boolean retval = document.load(inputStream);
+        if (!retval) {
+            Logger.log("Document.load() failed.");
+            return;
+        }
+
+        JLabel label = new JLabel(document.getDatabaseTitle(""));
         frame.getContentPane().add(label);
 
         //Display the window.
