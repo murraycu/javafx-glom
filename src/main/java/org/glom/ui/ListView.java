@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by murrayc on 9/1/15.
  */
-public class ListView {
+public class ListView extends JFrame {
 
     private static class TableModel extends AbstractTableModel {
 
@@ -67,11 +67,11 @@ public class ListView {
         }
     }
 
-    static void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    ListView() {
+        super();
 
+        //Set up the window.
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final InputStream inputStream = ListView.class.getClassLoader().getResourceAsStream("example_music_collection.glom");
 
@@ -83,7 +83,7 @@ public class ListView {
         }
 
         final String title = "Glom: " + document.getDatabaseTitle("") + ": List";
-        frame.setTitle(title);
+        setTitle(title);
 
         final String tableName = document.getDefaultTable();
         //final String tableTitle = document.getTableTitle(tableName, "");
@@ -92,11 +92,10 @@ public class ListView {
         final JTable table = new JTable(model);
 
         final JScrollPane scrollpane = new JScrollPane(table);
-        frame.getContentPane().add(scrollpane);
+        getContentPane().add(scrollpane);
 
         //Display the window.
-        frame.pack();
-        frame.setVisible(true);
+        pack();
     }
 
 }
