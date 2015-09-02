@@ -1,4 +1,4 @@
-package org.glom;
+package org.glom.ui;
 
 import org.glom.libglom.Document;
 import org.glom.libglom.Logger;
