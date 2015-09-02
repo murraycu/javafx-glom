@@ -52,7 +52,6 @@ public class TableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int columnIndex) {
-        System.out.println("in");
         final LayoutItem item = layoutItems.get(columnIndex);
         if (item == null) {
             return null;
