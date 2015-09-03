@@ -11,20 +11,11 @@ import java.io.InputStream;
  */
 public class ListView extends JFrame {
 
-    ListView() {
+    ListView(final Document document) {
         super();
 
         //Set up the window.
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        final InputStream inputStream = ListView.class.getClassLoader().getResourceAsStream("example_music_collection.glom");
-
-        final Document document = new Document();
-        final boolean retval = document.load(inputStream);
-        if (!retval) {
-            Logger.log("Document.load() failed.");
-            return;
-        }
 
         final String title = "Glom: " + document.getDatabaseTitle("") + ": List";
         setTitle(title);
