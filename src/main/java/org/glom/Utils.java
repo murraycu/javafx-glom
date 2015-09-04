@@ -22,7 +22,6 @@ package org.glom;
 import org.apache.commons.lang3.StringUtils;
 import org.glom.libglom.Field.GlomFieldType;
 
-import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

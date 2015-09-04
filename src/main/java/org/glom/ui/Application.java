@@ -1,18 +1,15 @@
 package org.glom.ui;
 
+import javafx.stage.Stage;
 import org.glom.Credentials;
 import org.glom.libglom.Document;
 import org.glom.libglom.Logger;
 
-import javax.swing.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.InputStream;
-
 /**
  * Created by murrayc on 9/3/15.
  */
-public class Application {
+public class Application extends javafx.application.Application {
     private static final Application ourInstance = new Application();
 
     private Document document;
@@ -22,7 +19,12 @@ public class Application {
         return ourInstance;
     }
 
-    private Application() {
+    public Application() {
+    }
+
+    @Override
+    public void start(final Stage primaryStage) throws Exception {
+        showLogin(primaryStage);
     }
 
     public Document getDocument() {
@@ -41,8 +43,10 @@ public class Application {
         this.credentials = credentials;
     }
 
-    public void showLogin() {
-        final InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("example_music_collection.glom");
+    public void showLogin(final Stage primaryStage) {
+        //Scene scene = new Scene(root, 300, 250);
+
+        final InputStream inputStream = Application.class.getClassLoader().getResourceAsStream("example_music_collection.glom");
 
         final Document document = new Document();
         final boolean retval = document.load(inputStream);
@@ -52,22 +56,16 @@ public class Application {
         }
 
         //Show the login dialog until it succeeds:
-        //TODO: Let the user cancel.
         final Application app = Application.getInstance();
-        final LoginDialog loginDialog = new LoginDialog(new JFrame(), document);
-        loginDialog.setVisible(true);
-        loginDialog.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentHidden(ComponentEvent e) {
-                if (app.getCredentials() == null) {
-                    //Ask again:
-                    loginDialog.setVisible(true);
-                } else {
-                    loginDialog.dispose();
-
-                    //Show the data now that we know we have a connection:
-                    showListView();
-                }
+        final LoginDialog loginDialog = new LoginDialog(document);
+        loginDialog.show();
+        loginDialog.resultProperty().addListener(observable -> {
+            if (app.getCredentials() == null) {
+                //Ask again:
+                loginDialog.show();
+            } else {
+                //Show the data now that we know we have a connection:
+                showListView();
             }
         });
     }
@@ -75,5 +73,9 @@ public class Application {
     private void showListView() {
         final ListView listView = new ListView(getDocument(), getCredentials().getConnection());
         listView.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        Application.launch(args);
     }
 }
