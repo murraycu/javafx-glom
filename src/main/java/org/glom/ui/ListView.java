@@ -1,6 +1,10 @@
 package org.glom.ui;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import javafx.embed.swing.SwingNode;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import org.glom.libglom.Document;
 
 import javax.swing.*;
@@ -8,27 +12,34 @@ import javax.swing.*;
 /**
  * Created by murrayc on 9/1/15.
  */
-public class ListView extends JFrame {
+public class ListView extends Scene {
+    private StackPane root;
 
     ListView(final Document document, final ComboPooledDataSource dataSource) {
-        super();
+        super(new StackPane());
+        root = (StackPane)getRoot();
 
-        //Set up the window.
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final SwingNode swingNode = new SwingNode();
 
-        final String title = "Glom: " + document.getDatabaseTitle("") + ": List";
-        setTitle(title);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                //Set up the window.
+                final String tableName = document.getDefaultTable();
+                //final String tableTitle = document.getTableTitle(tableName, "");
 
-        final String tableName = document.getDefaultTable();
-        //final String tableTitle = document.getTableTitle(tableName, "");
+                final TableModel model = new TableModel(document, dataSource, tableName);
+                final JTable table = new JTable(model);
 
-        final TableModel model = new TableModel(document, dataSource, tableName);
-        final JTable table = new JTable(model);
+                //final JScrollPane scrollpane = new JScrollPane(table);
+                //getContentPane().add(scrollpane);
 
-        final JScrollPane scrollpane = new JScrollPane(table);
-        getContentPane().add(scrollpane);
+                //Display the window.
+                //pack();
+                swingNode.setContent(table);
+            }
+        });
 
-        //Display the window.
-        pack();
+        root.getChildren().add(swingNode);
     }
 }

@@ -1,16 +1,20 @@
 package org.glom.ui;
 
+import javafx.embed.swing.SwingNode;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.glom.Credentials;
 import org.glom.libglom.Document;
 import org.glom.libglom.Logger;
 
+import javax.swing.*;
 import java.io.InputStream;
 /**
  * Created by murrayc on 9/3/15.
  */
 public class Application extends javafx.application.Application {
-    private static final Application ourInstance = new Application();
+    private static Application ourInstance;
 
     private Document document;
     private Credentials credentials;
@@ -24,6 +28,7 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
+        ourInstance = this;
         showLogin(primaryStage);
     }
 
@@ -44,11 +49,9 @@ public class Application extends javafx.application.Application {
     }
 
     public void showLogin(final Stage primaryStage) {
-        //Scene scene = new Scene(root, 300, 250);
-
         final InputStream inputStream = Application.class.getClassLoader().getResourceAsStream("example_music_collection.glom");
 
-        final Document document = new Document();
+        document = new Document();
         final boolean retval = document.load(inputStream);
         if (!retval) {
             Logger.log("Document.load() failed.");
@@ -65,14 +68,18 @@ public class Application extends javafx.application.Application {
                 loginDialog.show();
             } else {
                 //Show the data now that we know we have a connection:
-                showListView();
+                showListView(primaryStage);
             }
         });
     }
 
-    private void showListView() {
-        final ListView listView = new ListView(getDocument(), getCredentials().getConnection());
-        listView.setVisible(true);
+    private void showListView(final Stage primaryStage) {
+        final String title = "Glom: " + document.getDatabaseTitle("") + ": List";
+        primaryStage.setTitle("Glom");
+
+        final Scene scene = new ListView(document, getCredentials().getConnection());
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
