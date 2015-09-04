@@ -20,7 +20,6 @@
 package org.glom.libglom.layout;
 
 import org.apache.commons.lang3.StringUtils;
-
 import org.glom.libglom.CustomTitle;
 import org.glom.libglom.Field;
 import org.glom.libglom.Field.GlomFieldType;

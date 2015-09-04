@@ -20,7 +20,6 @@
 package org.glom.libglom.layout;
 
 import org.apache.commons.lang3.StringUtils;
-
 import org.glom.libglom.Relationship;
 
 public class UsesRelationshipImpl implements UsesRelationship {

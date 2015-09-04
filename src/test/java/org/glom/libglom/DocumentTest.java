@@ -19,15 +19,7 @@
 
 package org.glom.libglom;
 
-import org.glom.libglom.layout.LayoutGroup;
-import org.glom.libglom.layout.LayoutItem;
-import org.glom.libglom.layout.LayoutItemField;
-import org.glom.libglom.layout.LayoutItemNotebook;
-import org.glom.libglom.layout.LayoutItemPortal;
-import org.glom.libglom.layout.LayoutItemText;
-import org.glom.libglom.layout.SortClause;
-import org.glom.libglom.layout.StaticText;
-import org.glom.libglom.layout.TableToViewDetails;
+import org.glom.libglom.layout.*;
 import org.glom.libglom.layout.reportparts.LayoutItemGroupBy;
 import org.junit.After;
 import org.junit.Before;

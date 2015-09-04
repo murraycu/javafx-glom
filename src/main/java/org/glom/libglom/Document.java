@@ -21,23 +21,11 @@ package org.glom.libglom;
 
 //import java.io.ByteArrayInputStream;
 
-import org.apache.commons.lang3.StringUtils;
-
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.glom.libglom.Field.GlomFieldType;
-import org.glom.libglom.layout.Formatting;
-import org.glom.libglom.layout.LayoutGroup;
-import org.glom.libglom.layout.LayoutItem;
-import org.glom.libglom.layout.LayoutItemField;
-import org.glom.libglom.layout.LayoutItemImage;
-import org.glom.libglom.layout.LayoutItemNotebook;
-import org.glom.libglom.layout.LayoutItemPortal;
+import org.glom.libglom.layout.*;
 import org.glom.libglom.layout.LayoutItemPortal.NavigationType;
-import org.glom.libglom.layout.LayoutItemText;
-import org.glom.libglom.layout.StaticText;
-import org.glom.libglom.layout.TableToViewDetails;
-import org.glom.libglom.layout.UsesRelationship;
-import org.glom.libglom.layout.UsesRelationshipImpl;
 import org.glom.libglom.layout.reportparts.LayoutItemGroupBy;
 import org.jooq.SQLDialect;
 import org.w3c.dom.Element;
@@ -45,33 +33,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.*;
+import java.util.Map.Entry;
 
 
 /**

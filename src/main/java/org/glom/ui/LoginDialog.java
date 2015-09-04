@@ -80,7 +80,7 @@ public class LoginDialog extends JDialog {
 
         Credentials credentials = null;
         Document document = null;
-        if(dataSource != null) {
+        if (dataSource != null) {
             credentials = new Credentials(this.document, username, password, dataSource);
             document = this.document;
         }

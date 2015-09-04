@@ -259,7 +259,7 @@ public class SqlUtils {
     }
 
 	/*
-	 * private static String buildSqlSelectWithWhereClause(final String tableName, final LayoutFieldVector fieldsToGet)
+     * private static String buildSqlSelectWithWhereClause(final String tableName, final LayoutFieldVector fieldsToGet)
 	 * { final Condition whereClause = null; return buildSqlSelectWithWhereClause(tableName, fieldsToGet, whereClause);
 	 * }
 	 */
@@ -500,7 +500,6 @@ public class SqlUtils {
 	 * 
 	 * } }
 	 */
-
     private static void builderAddJoin(SelectJoinStep<Record> step, final UsesRelationship usesRelationship) {
         final Relationship relationship = usesRelationship.getRelationship();
         if (!relationship.getHasFields()) { // TODO: Handle related_record has_fields.

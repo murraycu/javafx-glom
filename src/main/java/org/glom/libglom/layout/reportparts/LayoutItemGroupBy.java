@@ -20,7 +20,6 @@
 package org.glom.libglom.layout.reportparts;
 
 import org.apache.commons.lang3.StringUtils;
-
 import org.glom.libglom.layout.LayoutGroup;
 import org.glom.libglom.layout.LayoutItemField;
 

@@ -20,13 +20,11 @@
 
 package org.glom.libglom;
 
-import org.glom.libglom.Document;
 import org.glom.libglom.layout.LayoutItem;
 import org.glom.libglom.layout.LayoutItemField;
 import org.junit.After;
 import org.junit.Before;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import static org.junit.Assert.*;

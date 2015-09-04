@@ -36,7 +36,7 @@ public class TableModel extends AbstractTableModel {
                 fieldsToGet, document.getSqlDialect());
         this.rowCount = getResultSizeOfSQLQuery(queryCount, dataSource);
 
-        final String query =  SqlUtils.buildSqlSelectWithWhereClause(tableName,
+        final String query = SqlUtils.buildSqlSelectWithWhereClause(tableName,
                 fieldsToGet, null, null, document.getSqlDialect());
 
         this.rs = null;
@@ -64,12 +64,12 @@ public class TableModel extends AbstractTableModel {
         fieldsToGet = new ArrayList<>();
 
         final List<LayoutGroup> listGroups = document.getDataLayoutGroups("list", this.tableName);
-        for(final LayoutGroup group : listGroups) {
-            for(final LayoutItem item : group.getItems()) {
+        for (final LayoutGroup group : listGroups) {
+            for (final LayoutItem item : group.getItems()) {
                 items.add(item);
 
-                if(item instanceof LayoutItemField) {
-                    fieldsToGet.add((LayoutItemField)item);
+                if (item instanceof LayoutItemField) {
+                    fieldsToGet.add((LayoutItemField) item);
                 }
             }
         }
@@ -96,7 +96,7 @@ public class TableModel extends AbstractTableModel {
         try {
             //ResultSet rows are 1-indexed.
             //0 means before the first row.
-            if(!rs.absolute(rowIndex + 1)) {
+            if (!rs.absolute(rowIndex + 1)) {
                 return null;
             }
 
