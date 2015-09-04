@@ -78,7 +78,6 @@ public class Utils {
 				ois.close();
 			} catch (final IOException e) {
 				System.out.println("Exception in deepCopy during finally: " + e);
-				return null;
 			}
 		}
 	}
