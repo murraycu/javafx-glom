@@ -1,20 +1,21 @@
 /*
  * Copyright (C) 2012 Openismus GmbH
+ * Copyright (C) 2015 Murray Cumming
  *
- * This file is part of GWT-Glom.
+ * This file is part of swing-glom
  *
- * GWT-Glom is free software: you can redistribute it and/or modify it
+ * swing-glom is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
  *
- * GWT-Glom is distributed in the hope that it will be useful, but WITHOUT
+ * swing-glom is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with GWT-Glom.  If not, see <http://www.gnu.org/licenses/>.
+ * along with swing-glom.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.glom;
@@ -30,17 +31,16 @@ import org.glom.libglom.layout.SortClause;
 import org.glom.libglom.layout.UsesRelationship;
 import org.glom.libglom.layout.UsesRelationshipImpl;
 import org.jooq.*;
+import org.jooq.conf.ParamType;
 import org.jooq.conf.RenderKeywordStyle;
 import org.jooq.conf.RenderNameStyle;
 import org.jooq.conf.Settings;
-import org.jooq.impl.Factory;
+import org.jooq.impl.DSL;
 
 import java.beans.PropertyVetoException;
 import java.sql.*;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 //import org.glom.DataItem;
 
@@ -277,32 +277,43 @@ public class SqlUtils {
             return "";
         }
 
-        final String query = step.getQuery().getSQL(true);
-        // Logger.log("Query: " + query);
-        return query;
+        return step.getQuery().getSQL(ParamType.INLINED);
+        // Log.info("Query: " + query);
+        //return query;
     }
 
-    private static SelectSelectStep createSelect(final SQLDialect sqlDialect) {
-        final Factory factory = new Factory(sqlDialect);
-        final Settings settings = factory.getSettings();
+    private static SelectSelectStep<Record> createSelect(final SQLDialect sqlDialect) {
+        final DSLContext dslContext = DSL.using(sqlDialect);
+
+        final Configuration configuration = dslContext.configuration();
+        final Settings settings = configuration.settings();
         settings.setRenderNameStyle(RenderNameStyle.QUOTED); // TODO: This doesn't seem to have any effect.
         settings.setRenderKeywordStyle(RenderKeywordStyle.UPPER); // TODO: Just to make debugging nicer.
 
-        final SelectSelectStep selectStep = factory.select();
-        return selectStep;
+        return dslContext.select();
     }
 
     private static SelectFinalStep buildSqlSelectStepWithWhereClause(final String tableName,
                                                                      final List<LayoutItemField> fieldsToGet, final Condition whereClause, final SortClause sortClause, final SQLDialect sqlDialect) {
 
-        final SelectSelectStep selectStep = createSelect(sqlDialect);
+        final SelectSelectStep<Record> selectStep = createSelect(sqlDialect);
 
         // Add the fields, and any necessary joins:
         final List<UsesRelationship> listRelationships = buildSqlSelectAddFieldsToGet(selectStep, tableName,
                 fieldsToGet, sortClause, false /* extraJoin */);
 
-        final Table<Record> table = Factory.tableByName(tableName);
-        final SelectJoinStep joinStep = selectStep.from(table);
+        // Android's CursorAdapter and SimpleCursorAdapter need the primary key to be called "_id"
+        // so we add an extra "theid as _id" alias:
+        /*
+        Field pk = document.getTablePrimaryKeyField(tableName);
+        if (pk != null) {
+            final org.jooq.Field<?> fieldPk = createField(tableName, pk.getName());
+            selectStep = selectStep.select(fieldPk.as(BaseColumns._ID));
+        }
+        */
+
+        final Table<Record> table = DSL.tableByName(tableName);
+        final SelectJoinStep<Record> joinStep = selectStep.from(table);
 
         // LEFT OUTER JOIN will get the field values from the other tables,
         // and give us our fields for this table even if there is no corresponding value in the other table.
@@ -332,20 +343,20 @@ public class SqlUtils {
 
     private static String buildSqlSelectCountRows(final SelectFinalStep selectInner, final SQLDialect sqlDialect) {
         // TODO: Find a way to do this with the jOOQ API:
-        final SelectSelectStep select = createSelect(sqlDialect);
+        final SelectSelectStep<Record> select = createSelect(sqlDialect);
 
-        final org.jooq.Field<?> field = Factory.field("*");
-        final AggregateFunction<?> count = Factory.count(field);
+        final org.jooq.Field<?> field = DSL.field("*");
+        final AggregateFunction<?> count = DSL.count(field);
         select.select(count).from(selectInner);
-        return select.getQuery().getSQL(true);
+        return select.getQuery().getSQL(ParamType.INLINED);
         // return "SELECT COUNT(*) FROM (" + query + ") AS glomarbitraryalias";
     }
 
-    private static List<UsesRelationship> buildSqlSelectAddFieldsToGet(SelectSelectStep step, final String tableName,
+    private static List<UsesRelationship> buildSqlSelectAddFieldsToGet(SelectSelectStep<Record> step, final String tableName,
                                                                        final List<LayoutItemField> fieldsToGet, final SortClause sortClause, final boolean extraJoin) {
 
         // Get all relationships used in the query:
-        final List<UsesRelationship> listRelationships = new ArrayList<UsesRelationship>();
+        final List<UsesRelationship> listRelationships = new ArrayList<>();
 
         final int layoutFieldsSize = Utils.safeLongToInt(fieldsToGet.size());
         for (int i = 0; i < layoutFieldsSize; i++) {
@@ -412,7 +423,7 @@ public class SqlUtils {
             return null;
         }
 
-        return Factory.fieldByName(tableName, fieldName);
+        return DSL.fieldByName(tableName, fieldName);
     }
 
     private static org.jooq.Field<Object> createField(final String tableName, final LayoutItemField layoutField) {
@@ -489,13 +500,14 @@ public class SqlUtils {
 	 * 
 	 * } }
 	 */
-    private static void builderAddJoin(SelectJoinStep step, final UsesRelationship usesRelationship) {
+
+    private static void builderAddJoin(SelectJoinStep<Record> step, final UsesRelationship usesRelationship) {
         final Relationship relationship = usesRelationship.getRelationship();
         if (!relationship.getHasFields()) { // TODO: Handle related_record has_fields.
             if (relationship.getHasToTable()) {
                 // It is a relationship that only specifies the table, without specifying linking fields:
 
-                // Table<Record> toTable = Factory.tableByName(relationship.getToTable());
+                // Table<Record> toTable = DSL.tableByName(relationship.getToTable());
                 // TODO: stepResult = step.from(toTable);
             }
 
@@ -516,7 +528,7 @@ public class SqlUtils {
             final Condition condition = fieldFrom.equal(fieldTo);
 
             // Note that LEFT JOIN (used in libglom/GdaSqlBuilder) is apparently the same as LEFT OUTER JOIN.
-            final Table<Record> toTable = Factory.tableByName(relationship.getToTable());
+            final Table<Record> toTable = DSL.tableByName(relationship.getToTable());
             step = step.leftOuterJoin(toTable.as(aliasName)).on(condition);
         } else {
             final UsesRelationship parentRelationship = new UsesRelationshipImpl();
@@ -529,7 +541,7 @@ public class SqlUtils {
             final Condition condition = fieldFrom.equal(fieldTo);
 
             // Note that LEFT JOIN (used in libglom/GdaSqlBuilder) is apparently the same as LEFT OUTER JOIN.
-            final Table<Record> toTable = Factory.tableByName(relatedRelationship.getToTable());
+            final Table<Record> toTable = DSL.tableByName(relatedRelationship.getToTable());
             step = step.leftOuterJoin(toTable.as(aliasName)).on(condition);
         }
     }
@@ -579,47 +591,62 @@ public class SqlUtils {
     /**
      * @param dataItem
      * @param field
-     * @param rsIndex
-     * @param rs
+     * @param rsIndex         The column index, 0-based.
+     * @param cursor
      * @param primaryKeyValue
      * @throws SQLException
      */
     public static void fillDataItemFromResultSet(final DataItem dataItem, final LayoutItemField field, final int rsIndex,
-                                                 final ResultSet rs, final String documentID, final String tableName, final TypedDataItem primaryKeyValue) throws SQLException {
+                                                 final Cursor cursor, final String documentID, final String tableName, final TypedDataItem primaryKeyValue) {
 
         switch (field.getGlomType()) {
             case TYPE_TEXT:
-                final String text = rs.getString(rsIndex);
-                dataItem.setText(text != null ? text : "");
+                //TODO: final String text = cursor.getString(rsIndex);
+                //dataItem.setText(text != null ? text : "");
                 break;
             case TYPE_BOOLEAN:
-                dataItem.setBoolean(rs.getBoolean(rsIndex));
+                //TODO: dataItem.setBoolean(cursor.getInt(rsIndex) > 0);
                 break;
             case TYPE_NUMERIC:
-                dataItem.setNumber(rs.getDouble(rsIndex));
+                //TODO: dataItem.setNumber(cursor.getDouble(rsIndex));
                 break;
             case TYPE_DATE:
-                final Date date = rs.getDate(rsIndex);
-                if (date != null) {
-                    // TODO: Pass Date and Time types instead of converting to text here?
-                    // TODO: Use a 4-digit-year short form, somehow.
-                    final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ROOT);
-                    dataItem.setText(dateFormat.format(date));
-                } else {
-                    dataItem.setText("");
-                }
+            /* TODO:
+            final Date date = cursor.getDate(rsIndex);
+			if (date != null) {
+				// TODO: Pass Date and Time types instead of converting to text here?
+				// TODO: Use a 4-digit-year short form, somehow.
+				final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ROOT);
+				dataItem.setText(dateFormat.format(date));
+			} else {
+				dataItem.setText("");
+			}
+			*/
                 break;
             case TYPE_TIME:
-                final Time time = rs.getTime(rsIndex);
-                if (time != null) {
-                    final DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.ROOT);
-                    dataItem.setText(timeFormat.format(time));
-                } else {
-                    dataItem.setText("");
-                }
+            /* TODO:
+			final Time time = cursor.getTime(rsIndex);
+			if (time != null) {
+				final DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.ROOT);
+				dataItem.setText(timeFormat.format(time));
+			} else {
+				dataItem.setText("");
+			}
+			*/
                 break;
             case TYPE_IMAGE:
-                //TODO:
+                //We don't get the data here.
+                //Instead we provide a way for the client to get the image separately.
+
+                //This doesn't seem to work,
+                //presumably because the base64 encoding is wrong:
+                //final byte[] imageByteArray = rs.getBytes(rsIndex);
+                //if (imageByteArray != null) {
+                //	String base64 = org.apache.commons.codec.binary.Base64.encodeBase64URLSafeString(imageByteArray);
+                //	base64 = "data:image/png;base64," + base64;
+
+                //TODO: final String url = Utils.buildImageDataUrl(primaryKeyValue, documentID, tableName, field);
+                //TODO: dataItem.setImageDataUrl(url);
                 break;
             case TYPE_INVALID:
             default:
