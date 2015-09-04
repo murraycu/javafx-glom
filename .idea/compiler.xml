@@ -26,6 +26,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="javafx-glom" target="1.8" />
       <module name="swing-glom" target="1.7" />
     </bytecodeTargetLevel>
   </component>
