@@ -44,38 +44,12 @@ public class Utils {
         return (int) value;
     }
 
+    /*
     public static String getFileName(final String fileURI) {
         final String[] splitURI = fileURI.split(File.separator);
         return splitURI[splitURI.length - 1];
     }
-
-    static public Object deepCopy(final Object oldObj) {
-        ObjectOutputStream oos = null;
-        ObjectInputStream ois = null;
-
-        try {
-            final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            oos = new ObjectOutputStream(bos);
-            // serialize and pass the object
-            oos.writeObject(oldObj);
-            oos.flush();
-            final ByteArrayInputStream bin = new ByteArrayInputStream(bos.toByteArray());
-            ois = new ObjectInputStream(bin);
-
-            // return the new object
-            return ois.readObject();
-        } catch (final Exception e) {
-            System.out.println("Exception in deepCopy:" + e);
-            return null;
-        } finally {
-            try {
-                oos.close();
-                ois.close();
-            } catch (final IOException e) {
-                System.out.println("Exception in deepCopy during finally: " + e);
-            }
-        }
-    }
+    */
 
     /**
      * Build a :-separated string to represent the path as a string.
