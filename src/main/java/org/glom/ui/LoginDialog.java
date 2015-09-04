@@ -16,8 +16,8 @@ import java.sql.SQLException;
  */
 public class LoginDialog extends JDialog {
     private final Document document;
-    private JTextField textFieldUsername;
-    private JTextField textFieldPassword;
+    private final JTextField textFieldUsername;
+    private final JTextField textFieldPassword;
 
     LoginDialog(final JFrame owner, final Document document) {
         super(owner, "Login");

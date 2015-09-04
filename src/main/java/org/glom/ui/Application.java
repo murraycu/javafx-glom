@@ -13,7 +13,7 @@ import java.io.InputStream;
  * Created by murrayc on 9/3/15.
  */
 public class Application {
-    private static Application ourInstance = new Application();
+    private static final Application ourInstance = new Application();
 
     private Document document;
     private Credentials credentials;

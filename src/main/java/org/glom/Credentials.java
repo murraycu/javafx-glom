@@ -30,9 +30,9 @@ import org.glom.libglom.Logger;
  *
  */
 public class Credentials {
-	public Document document;
-	public String username;
-	public String password;
+	public final Document document;
+	public final String username;
+	public final String password;
 	private ComboPooledDataSource cpds;
 
 	public Credentials(final Document document, final String username, final String password, final ComboPooledDataSource cpds) {
