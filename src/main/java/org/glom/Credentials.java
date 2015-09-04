@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2015 Murray Cumming
  *
- * This file is part of swing-glom
+ * This file is part of javafx-glom
  *
  * GWT-Glom is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the

@@ -1,2 +1,2 @@
-# swing-glom
-An experiment, using swing (Java) to build a Glom UI
+# javafx-glom
+An experiment, using JavaFX to build a Glom UI

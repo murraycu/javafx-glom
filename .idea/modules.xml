@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/swing-glom.iml" filepath="$PROJECT_DIR$/swing-glom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javafx-glom.iml" filepath="$PROJECT_DIR$/javafx-glom.iml" />
     </modules>
   </component>
 </project>
