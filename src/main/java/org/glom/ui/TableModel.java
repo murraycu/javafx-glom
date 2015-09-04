@@ -1,14 +1,12 @@
 package org.glom.ui;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.glom.Credentials;
 import org.glom.SqlUtils;
 import org.glom.libglom.Document;
 import org.glom.libglom.Logger;
 import org.glom.libglom.layout.LayoutGroup;
 import org.glom.libglom.layout.LayoutItem;
 import org.glom.libglom.layout.LayoutItemField;
-import org.jooq.SQLDialect;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.DriverManager;
