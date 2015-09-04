@@ -312,7 +312,7 @@ public class SqlUtils {
         }
         */
 
-        final Table<Record> table = DSL.tableByName(tableName);
+        final Table<Record> table = DSL.table(tableName);
         final SelectJoinStep<Record> joinStep = selectStep.from(table);
 
         // LEFT OUTER JOIN will get the field values from the other tables,
@@ -423,7 +423,7 @@ public class SqlUtils {
             return null;
         }
 
-        return DSL.fieldByName(tableName, fieldName);
+        return DSL.field(DSL.name(tableName, fieldName));
     }
 
     private static org.jooq.Field<Object> createField(final String tableName, final LayoutItemField layoutField) {
@@ -507,7 +507,7 @@ public class SqlUtils {
             if (relationship.getHasToTable()) {
                 // It is a relationship that only specifies the table, without specifying linking fields:
 
-                // Table<Record> toTable = DSL.tableByName(relationship.getToTable());
+                // Table<Record> toTable = DSL.table(relationship.getToTable());
                 // TODO: stepResult = step.from(toTable);
             }
 
@@ -528,7 +528,7 @@ public class SqlUtils {
             final Condition condition = fieldFrom.equal(fieldTo);
 
             // Note that LEFT JOIN (used in libglom/GdaSqlBuilder) is apparently the same as LEFT OUTER JOIN.
-            final Table<Record> toTable = DSL.tableByName(relationship.getToTable());
+            final Table<Record> toTable = DSL.table(relationship.getToTable());
             step = step.leftOuterJoin(toTable.as(aliasName)).on(condition);
         } else {
             final UsesRelationship parentRelationship = new UsesRelationshipImpl();
@@ -541,7 +541,7 @@ public class SqlUtils {
             final Condition condition = fieldFrom.equal(fieldTo);
 
             // Note that LEFT JOIN (used in libglom/GdaSqlBuilder) is apparently the same as LEFT OUTER JOIN.
-            final Table<Record> toTable = DSL.tableByName(relatedRelationship.getToTable());
+            final Table<Record> toTable = DSL.table(relatedRelationship.getToTable());
             step = step.leftOuterJoin(toTable.as(aliasName)).on(condition);
         }
     }
