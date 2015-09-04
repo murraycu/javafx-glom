@@ -54,7 +54,7 @@ public class DocumentLayoutPathTest {
     public void tearDown() {
     }
 
-    public void testNormal() throws IOException {
+    public void testNormal() {
         // Just an initial sanity check:
         assertEquals("Music Collection", document.getDatabaseTitleOriginal());
 
@@ -66,13 +66,13 @@ public class DocumentLayoutPathTest {
         assertEquals("comments", item.getName());
     }
 
-    public void testOutOfBounds() throws IOException {
+    public void testOutOfBounds() {
         final String layoutPath = "1:200"; //Check that it does not crash.
         final LayoutItem item = document.getLayoutItemByPath("artists", Document.LAYOUT_NAME_DETAILS, layoutPath);
         assertNull(item);
     }
 
-    public void testOutOfBoundsNegative() throws IOException {
+    public void testOutOfBoundsNegative() {
         final String layoutPath = "-1:-50"; //Check that it does not crash.
         final LayoutItem item = document.getLayoutItemByPath("artists", Document.LAYOUT_NAME_DETAILS, layoutPath);
         assertNull(item);
