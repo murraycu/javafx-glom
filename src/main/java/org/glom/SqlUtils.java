@@ -219,7 +219,10 @@ public class SqlUtils {
 		// data. Here's the relevant PostgreSQL documentation:
 		// http://jdbc.postgresql.org/documentation/83/query.html#query-with-cursor
 		conn.setAutoCommit(false);
-		final Statement st = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+
+		//TODO: Change this back to ResultSet.TYPE_FORWARD_ONLY when we can use a sane UI component
+		//(not JTable) that doesn't need us to jump around the result set or copy its entire contents.
+		final Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		if(expectedLength > 0) {
 			st.setFetchSize(expectedLength);
 		}

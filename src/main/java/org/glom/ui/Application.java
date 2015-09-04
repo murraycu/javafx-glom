@@ -73,7 +73,7 @@ public class Application {
     }
 
     private void showListView() {
-        final ListView listView = new ListView(document);
+        final ListView listView = new ListView(getDocument(), getCredentials().getConnection());
         listView.setVisible(true);
     }
 }

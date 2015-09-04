@@ -1,17 +1,16 @@
 package org.glom.ui;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.glom.libglom.Document;
-import org.glom.libglom.Logger;
 
 import javax.swing.*;
-import java.io.InputStream;
 
 /**
  * Created by murrayc on 9/1/15.
  */
 public class ListView extends JFrame {
 
-    ListView(final Document document) {
+    ListView(final Document document, final ComboPooledDataSource dataSource) {
         super();
 
         //Set up the window.
@@ -23,7 +22,7 @@ public class ListView extends JFrame {
         final String tableName = document.getDefaultTable();
         //final String tableTitle = document.getTableTitle(tableName, "");
 
-        final TableModel model = new TableModel(document, tableName);
+        final TableModel model = new TableModel(document, dataSource, tableName);
         final JTable table = new JTable(model);
 
         final JScrollPane scrollpane = new JScrollPane(table);
@@ -32,5 +31,4 @@ public class ListView extends JFrame {
         //Display the window.
         pack();
     }
-
 }

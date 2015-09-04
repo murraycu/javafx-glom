@@ -39,6 +39,7 @@ import org.glom.libglom.layout.TableToViewDetails;
 import org.glom.libglom.layout.UsesRelationship;
 import org.glom.libglom.layout.UsesRelationshipImpl;
 import org.glom.libglom.layout.reportparts.LayoutItemGroupBy;
+import org.jooq.SQLDialect;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -2031,7 +2032,6 @@ public class Document {
         return item;
     }
 
-
     // TODO: Make sure these have the correct values.
     public enum LoadFailureCodes {
         LOAD_FAILURE_CODE_NONE, LOAD_FAILURE_CODE_NOT_FOUND, LOAD_FAILURE_CODE_FILE_VERSION_TOO_NEW
@@ -2091,5 +2091,24 @@ public class Document {
         public String tableName = null;
         public String layoutName = null;
         public int[] indices = new int[1];
+    }
+
+
+    /**
+     * @return
+     */
+    public SQLDialect getSqlDialect() {
+        switch (hostingMode) {
+            case HOSTING_MODE_POSTGRES_SELF:
+            case HOSTING_MODE_POSTGRES_CENTRAL:
+                return SQLDialect.POSTGRES;
+            case HOSTING_MODE_MYSQL_SELF:
+            case HOSTING_MODE_MYSQL_CENTRAL:
+                return SQLDialect.MYSQL;
+            case HOSTING_MODE_SQLITE:
+                return SQLDialect.SQLITE;
+            default:
+                return null;
+        }
     }
 }
