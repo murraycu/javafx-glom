@@ -22,17 +22,15 @@ public class TableModel extends AbstractTableModel {
 
     private final Document document;
     private final String tableName;
-    private final List<LayoutItem> layoutItems;
-    private final ComboPooledDataSource dataSource;
     private List<LayoutItemField> fieldsToGet;
     private ResultSet rs;
     private final int rowCount;
 
     public TableModel(final Document document, final ComboPooledDataSource dataSource, final String tableName) {
         this.document = document;
-        this.dataSource = dataSource;
         this.tableName = tableName;
-        this.layoutItems = buildLayoutItems();
+        //TODO: Use static text items too:
+        final List<LayoutItem> layoutItems = buildLayoutItems();
 
         final String queryCount = SqlUtils.buildSqlCountSelectWithWhereClause(tableName,
                 fieldsToGet, document.getSqlDialect());
